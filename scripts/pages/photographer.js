@@ -20,11 +20,25 @@ async function getPhotographers() {
   }
 }
 
-async function displayData(photographer) {
+async function displayData(photographer, media) {
   const main = document.querySelector("#main");
+  const mediaSection = document.querySelector(".media-section");
 
   const photographerModel = photographerFactory(photographer);
+  media.forEach((el) => {
+    const mediaModel = mediaFactory(el, photographer.name);
+    const mediaCardDOM = mediaModel.getMediaCardDOM();
+    mediaSection.appendChild(mediaCardDOM);
+  });
+
+  /**
+   * Calculate total likes to be displayed at the bottom of the page
+   */
+  const likes = media.map((el) => el.likes);
+  const totalLikes = likes.reduce((prev, next) => prev + next);
+
   main.prepend(photographerModel.getUserPageDOM());
+  main.appendChild(photographerModel.getUserPriceCardDOM(totalLikes));
 }
 
 async function init() {
@@ -35,8 +49,15 @@ async function init() {
   const filteredPhotographers = photographers.filter((el) => el.id === id)[0];
   console.log(filteredMedia);
   console.log(filteredPhotographers);
+  window.localStorage.setItem(
+    "photographerData",
+    JSON.stringify({
+      photographer: filteredPhotographers,
+      media: filteredMedia,
+    })
+  );
 
-  displayData(filteredPhotographers);
+  displayData(filteredPhotographers, filteredMedia);
 }
 
 init();

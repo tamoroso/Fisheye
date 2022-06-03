@@ -38,5 +38,24 @@ function photographerFactory(data) {
 
     return header;
   };
-  return { name, picture, getUserCardDOM, getUserPageDOM };
+
+  const getUserPriceCardDOM = (totalLike) => {
+    const priceCard = document.createElement("div");
+    priceCard.className = "like-price";
+
+    const priceCardContent = `
+        <span>
+            <p>${totalLike}</p>
+            <a class="fa-solid fa-heart"></a>
+        </span>
+        <span>
+            <p>${price}€ / jour</p>
+        </span>
+      `;
+
+    priceCard.innerHTML = priceCardContent;
+    return priceCard;
+  };
+
+  return { name, picture, getUserCardDOM, getUserPageDOM, getUserPriceCardDOM };
 }
