@@ -171,6 +171,7 @@
   height: 300px;
   object-fit: cover;
   border-radius: 4px;
+  cursor: pointer;
 }
 
 .media-section div {
@@ -184,6 +185,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 
 .media-section div div p {
@@ -215,10 +217,25 @@
   margin-right: 0.5rem;
 }
 
+.contact_modal,
+.lightbox {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+}
+
+.contact_modal {
+  background-color: rgba(193, 193, 193, 0.3);
+}
+
 .modal {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
   border-radius: 5px;
   background-color: #db8876;
   width: 50%;
+  max-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -230,6 +247,7 @@
 .modal header {
   justify-content: space-between;
   width: 100%;
+  margin-bottom: 30px;
 }
 
 .modal header img {
@@ -237,9 +255,9 @@
 }
 
 .modal header h2 {
-  font-size: 64px;
+  font-size: 3rem;
   font-weight: normal;
-  text-align: center;
+  text-align: left;
 }
 
 form {
@@ -251,7 +269,7 @@ form {
 
 form label {
   color: #312e2e;
-  font-size: 36px;
+  font-size: 1.8rem;
 }
 
 form div {
@@ -264,7 +282,69 @@ form div {
 
 form input {
   width: 100%;
-  height: 68px;
+  height: 3rem;
   border: none;
   border-radius: 5px;
+}
+
+form textarea[name="message"] {
+  resize: none;
+  overflow-y: scroll;
+  min-width: 100%;
+  min-height: 100px;
+}
+
+.lightbox {
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+}
+
+.lightbox-close-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  margin: 1rem;
+}
+
+.lightbox-close-icon path {
+  fill: var(--accent-color);
+}
+
+.lightbox-control {
+  margin: 0 20px;
+  cursor: pointer;
+}
+.lightbox-control a {
+  font-size: 50px;
+  color: var(--accent-color);
+}
+
+.lightbox-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.lightbox-slides {
+  height: 80vh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.lightbox-slides img,
+.lightbox-slides video {
+  object-fit: cover;
+  object-position: center;
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.lightbox-slides p {
+  align-self: flex-start;
+  color: var(--accent-color);
 }

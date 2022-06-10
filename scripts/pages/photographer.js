@@ -23,12 +23,17 @@ async function getPhotographers() {
 async function displayData(photographer, media) {
   const main = document.querySelector("#main");
   const mediaSection = document.querySelector(".media-section");
+  const modalInfos = document.querySelector(".modal-photographer-name");
+  const lightBoxContent = document.querySelector(".lightbox-content");
 
   const photographerModel = photographerFactory(photographer);
   media.forEach((el) => {
     const mediaModel = mediaFactory(el, photographer.name);
     const mediaCardDOM = mediaModel.getMediaCardDOM();
     mediaSection.appendChild(mediaCardDOM);
+
+    const mediaLightBoxSlideDOM = mediaModel.getLightboxSlideDOM();
+    lightBoxContent.appendChild(mediaLightBoxSlideDOM);
   });
 
   /**
@@ -37,6 +42,7 @@ async function displayData(photographer, media) {
   const likes = media.map((el) => el.likes);
   const totalLikes = likes.reduce((prev, next) => prev + next);
 
+  modalInfos.textContent = photographer.name;
   main.prepend(photographerModel.getUserPageDOM());
   main.appendChild(photographerModel.getUserPriceCardDOM(totalLikes));
 }
@@ -47,8 +53,7 @@ async function init() {
   const id = parseInt(param.get("id"));
   const filteredMedia = media.filter((el) => el.photographerId === id);
   const filteredPhotographers = photographers.filter((el) => el.id === id)[0];
-  console.log(filteredMedia);
-  console.log(filteredPhotographers);
+
   window.localStorage.setItem(
     "photographerData",
     JSON.stringify({

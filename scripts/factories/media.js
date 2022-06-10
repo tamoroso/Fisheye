@@ -8,7 +8,7 @@ const mediaFactory = (data, photographerName) => {
     if ("video" in data) {
       const videoPath = `/assets/media/${photographerName}/${video}`;
       articleContent = `
-      <video autoplay muted loop> 
+      <video autoplay muted loop onclick="openLightBox(event, ${id});"> 
         <source src="${videoPath}" type="video/mp4"/>
       </video>
       <div>
@@ -22,7 +22,7 @@ const mediaFactory = (data, photographerName) => {
     } else {
       const imagePath = `assets/media/${photographerName}/${image}`;
       articleContent = `
-      <img src="${imagePath}"/>
+      <img src="${imagePath}" onclick="openLightBox(event, ${id});"/>
       <div>
         <p>${title}</p>
         <div>
@@ -36,5 +36,29 @@ const mediaFactory = (data, photographerName) => {
     return article;
   };
 
-  return { getMediaCardDOM };
+  const getLightboxSlideDOM = () => {
+    const div = document.createElement("div");
+    div.className = "lightbox-slides";
+    div.id = id;
+
+    if ("video" in data) {
+      const videoPath = `assets/media/${photographerName}/${video}`;
+      divContent = `
+            <video autoplay muted loop>
+                <source src="${videoPath}" type="video/mp4"/>
+            </video>
+            <p>${title}</p>
+        `;
+    } else {
+      const imagePath = `assets/media/${photographerName}/${image}`;
+      divContent = `
+        <img src="${imagePath}"/>
+        <p>${title}</p>
+      `;
+    }
+    div.innerHTML = divContent;
+    return div;
+  };
+
+  return { getMediaCardDOM, getLightboxSlideDOM };
 };
