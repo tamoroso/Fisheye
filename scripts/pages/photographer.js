@@ -30,6 +30,8 @@ async function displayData(photographer, media) {
   media.forEach((el) => {
     const mediaModel = mediaFactory(el, photographer.name);
     const mediaCardDOM = mediaModel.getMediaCardDOM();
+    const likeComponent = mediaCardDOM.querySelector("div div i");
+    likeComponent.addEventListener("click", (e) => handleUserLike(e));
     mediaSection.appendChild(mediaCardDOM);
 
     const mediaLightBoxSlideDOM = mediaModel.getLightboxSlideDOM();
@@ -51,7 +53,11 @@ async function init() {
   const { media, photographers } = await getPhotographers();
   const param = new URLSearchParams(new URL(window.location).searchParams);
   const id = parseInt(param.get("id"));
-  const filteredMedia = media.filter((el) => el.photographerId === id);
+  const filteredMedia = media
+    .filter((el) => el.photographerId === id)
+    .map((el) => {
+      return { ...el, isLiked: false };
+    });
   const filteredPhotographers = photographers.filter((el) => el.id === id)[0];
 
   window.localStorage.setItem(
@@ -66,3 +72,44 @@ async function init() {
 }
 
 init();
+
+const handleUserLike = (e) => {
+  const { media, photographer } = JSON.parse(
+    window.localStorage.getItem("photographerData")
+  );
+  const targetElement = e.target;
+  const mediaSection = document.querySelector(".media-section");
+  const priceCard = document.querySelector(".like-price");
+  let rootElement = targetElement;
+  while (rootElement.id === "") {
+    rootElement = rootElement.parentElement;
+  }
+  let targetMedia = media.filter((el) => el.id === parseInt(rootElement.id))[0];
+  let { likes, isLiked } = targetMedia;
+  targetMedia = {
+    ...targetMedia,
+    isLiked: !isLiked,
+    likes: isLiked ? likes - 1 : likes + 1,
+  };
+  const newMediaArray = media.map((el) => {
+    return el.id !== targetMedia.id ? el : targetMedia;
+  });
+
+  window.localStorage.setItem(
+    "photographerData",
+    JSON.stringify({
+      photographer: photographer,
+      media: newMediaArray,
+    })
+  );
+
+  const indexInChildNode = [...mediaSection.childNodes].indexOf(rootElement);
+  const elementToUpdate = mediaSection.childNodes.item(indexInChildNode);
+  const likeCount = elementToUpdate.querySelector("div div p");
+  const totalLikeCount = priceCard.querySelector("span p");
+  const likeArray = newMediaArray.map((el) => el.likes);
+  const totalLikes = likeArray.reduce((prev, next) => prev + next);
+
+  likeCount.innerHTML = `${targetMedia.likes}`;
+  totalLikeCount.innerHTML = `${totalLikes}`;
+};
