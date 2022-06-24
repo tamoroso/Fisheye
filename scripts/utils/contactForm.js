@@ -1,18 +1,45 @@
+const modal = document.getElementById("contact_modal");
+const closeButton = modal.querySelector("img");
+
+closeButton.addEventListener("click", () => closeModal());
+
 function displayModal() {
   const modal = document.getElementById("contact_modal");
   const body = document.body;
+  const main = document.querySelector("main");
+  const closeButton = modal.querySelector("img");
+  let top = Math.round(window.pageYOffset * 10) / 10;
+  main.ariaHidden = true;
+  modal.ariaHidden = false;
+  modal.style.cssText = `display: block; top: ${top}px;`;
   body.style.overflow = "hidden";
-  modal.style.display = "block";
+  closeButton.focus();
 }
 
 function closeModal() {
   const modal = document.getElementById("contact_modal");
+  const header = document.querySelector(".photograph-header");
   const body = document.body;
+  const main = document.querySelector("main");
+  const openModalButton = header.querySelector("button");
+  main.ariaHidden = false;
+  modal.ariaHidden = true;
   body.style.overflow = "auto";
   modal.style.display = "none";
+  openModalButton.focus();
 }
 
 const form = document.forms["contact-form"];
+
+form.addEventListener("submit", (e) => validateForm(e));
+
+modal.addEventListener("keydown", (e) => {
+  e.code === "Escape" ? closeModal() : null;
+});
+
+modal.addEventListener("keydown", (e) => {
+  e.code === "Enter" ? validateForm(e) : null;
+});
 
 const validateForm = (event) => {
   event.preventDefault();
@@ -45,6 +72,7 @@ const validateForm = (event) => {
     const isValid = firstName && lastName && email && message;
     if (isValid) {
       console.log(req);
+      closeModal();
     }
   });
 };

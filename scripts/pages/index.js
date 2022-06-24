@@ -35,6 +35,7 @@ async function init() {
 
   const { photographers } = await getPhotographers();
   displayData(photographers);
+  console.log(document.body.innerHTML);
 }
 
 init();

@@ -69,6 +69,7 @@ async function init() {
   );
 
   displayData(filteredPhotographers, filteredMedia);
+  console.log(document.body.innerHTML);
 }
 
 init();

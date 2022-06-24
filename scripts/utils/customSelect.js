@@ -55,6 +55,7 @@ const customSort = (data, sortBy) => {
   }
 };
 
+//FIXME: Lost event listener on media card (solution don't rebuild the section but just reorder based on ids)
 const sortDataBy = (filter) => {
   const mediaSection = document.querySelector(".media-section");
   while (mediaSection.firstChild) {
@@ -95,4 +96,5 @@ optionList.className = "select-items select-hide";
 });
 
 originalSelect.appendChild(optionList);
+customSelect.ariaHidden = true;
 customSelect.addEventListener("click", (e) => openCustomSelect(e));

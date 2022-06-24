@@ -6,13 +6,13 @@ function photographerFactory(data) {
     const article = document.createElement("article");
     article.id = id;
     const articleContent = `
-      <a href=/photographer.html?id=${id}>
-        <img src = "${picture}"/>
+      <a href=/photographer.html?id=${id} aria-label="${name}">
+        <img src = "${picture}" alt=""/>
         <h2>${name}</h2>
-        <p class="location">${city}, ${country}</p>
-        <p class="tagline">${tagline}</p>
-        <p class="price">${price}€/jour</p>
       </a>
+      <p class="location">${city}, ${country}</p>
+      <p class="tagline">${tagline}</p>
+      <p class="price">${price}€/jour</p>
       `;
     article.innerHTML = articleContent;
     return article;
@@ -21,21 +21,24 @@ function photographerFactory(data) {
   const getUserPageDOM = () => {
     const header = document.createElement("div");
     header.className = "photograph-header";
-
     const headerContent = `
       <ul class="photograph-infos">
         <li>${name}</li>
         <li>${city}, ${country}</li>
         <li>${tagline}</li>
       </ul>
-      <button class="contact_button" onclick="displayModal()">
+      <button class="contact_button" aria-label="Contact Me">
       Contactez-moi
       </button>
-      <img src="${picture}"/>
+      <img src="${picture}" alt=""/>
     `;
 
     header.innerHTML = headerContent;
-
+    const openContactForm = header.querySelector("button");
+    openContactForm.addEventListener("click", () => displayModal());
+    openContactForm.addEventListener("keypress", (e) => {
+      e.key === "Enter" ? displayModal() : null;
+    });
     return header;
   };
 
