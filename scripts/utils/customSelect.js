@@ -3,7 +3,6 @@ const updateSelectBox = (e) => {
     e.currentTarget.parentNode.parentNode.getElementsByTagName("select")[0];
   let selectLength = select.length;
   let prevSibling = e.currentTarget.parentNode.previousSibling;
-  //TO-DO : change forEach loop with classic for loop because enable to break on forEach
   for (let i = 0; i < selectLength; i++) {
     if (select.options[i].innerHTML === e.currentTarget.innerHTML) {
       select.selectedIndex = i;
@@ -36,29 +35,30 @@ const customSort = (data, sortBy) => {
       data.sort((a, b) => {
         return a.likes < b.likes ? 1 : a.likes > b.likes ? -1 : 0;
       });
-      console.log(data);
+      // console.log(data);
       return data;
     case "date":
       data.sort((a, b) => {
         return a.date < b.date ? 1 : a.date > b.date ? -1 : 0;
       });
-      console.log(data);
+      // console.log(data);
       return data;
     case "title":
       data.sort((a, b) => {
         return a.title.localeCompare(b.title);
       });
-      console.log(data);
+      // console.log(data);
       return data;
     default:
       return data;
   }
 };
 
-//FIXME: Lost event listener on media card (solution don't rebuild the section but just reorder based on ids)
 const sortDataBy = (filter) => {
   const mediaSection = document.querySelector(".media-section");
+  let articleArray = [];
   while (mediaSection.firstChild) {
+    articleArray.unshift(mediaSection.lastChild);
     mediaSection.removeChild(mediaSection.lastChild);
   }
   const { media, photographer } = JSON.parse(
@@ -66,11 +66,12 @@ const sortDataBy = (filter) => {
   );
 
   const sortedMedia = customSort(media, filter);
+  const sortedArticle = sortedMedia.map((media) => {
+    return articleArray.find((el) => media.id === parseInt(el.id));
+  });
 
-  sortedMedia.forEach((el) => {
-    const mediaModel = mediaFactory(el, photographer.name);
-    const mediaCardDOM = mediaModel.getMediaCardDOM();
-    mediaSection.appendChild(mediaCardDOM);
+  sortedArticle.forEach((el) => {
+    mediaSection.appendChild(el);
   });
 };
 

@@ -1,4 +1,3 @@
-// TODO: Create a function to handle no scroll and aria
 let slides = [];
 let index = 0;
 

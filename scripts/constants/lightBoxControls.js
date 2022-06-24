@@ -1,8 +1,6 @@
-
 const { lightBox, closeButtonLightBox, rightButton, leftButton } =
   getDomElement();
 
-//TODO: Pack event doing the same thing but using different eventType in the same string
 const LIGHTBOX_CONTROLS = [
   {
     name: "keyboardPrevNext",
