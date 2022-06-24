@@ -20,5 +20,7 @@
     "displayModal": true,
     "setEventListener": true
   },
-  "rules": {}
+  "rules": {
+    "no-unused-vars": 0
+  }
 }
