@@ -1,3 +1,4 @@
+
 const { lightBox, closeButtonLightBox, rightButton, leftButton } =
   getDomElement();
 

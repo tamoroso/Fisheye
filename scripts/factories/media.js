@@ -1,5 +1,5 @@
 const mediaFactory = (data, photographerName) => {
-  const { id, likes, date, video, image, price, title } = data;
+  const { id, likes, video, image, title } = data;
   const getMediaCardDOM = () => {
     const article = document.createElement("article");
     article.id = id;
@@ -59,6 +59,7 @@ const mediaFactory = (data, photographerName) => {
     const div = document.createElement("div");
     div.className = "lightbox-slides";
     div.id = id;
+    let divContent;
 
     if ("video" in data) {
       const videoPath = `assets/media/${photographerName}/${video}`;

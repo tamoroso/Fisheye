@@ -4,7 +4,7 @@ const updateSelectBox = (e) => {
   let selectLength = select.length;
   let prevSibling = e.currentTarget.parentNode.previousSibling;
   //TO-DO : change forEach loop with classic for loop because enable to break on forEach
-  for (i = 0; i < selectLength; i++) {
+  for (let i = 0; i < selectLength; i++) {
     if (select.options[i].innerHTML === e.currentTarget.innerHTML) {
       select.selectedIndex = i;
       sortDataBy(select.options[select.selectedIndex].value);
