@@ -294,6 +294,13 @@ form textarea[name="message"] {
   min-height: 100px;
 }
 
+.invalid-feedback {
+  display: none;
+  color: var(--accent-color);
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
 .lightbox {
   display: none;
   justify-content: space-between;

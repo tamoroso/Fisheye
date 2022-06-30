@@ -61,9 +61,7 @@ const sortDataBy = (filter) => {
     articleArray.unshift(mediaSection.lastChild);
     mediaSection.removeChild(mediaSection.lastChild);
   }
-  const { media, photographer } = JSON.parse(
-    window.localStorage.getItem("photographerData")
-  );
+  const { media } = JSON.parse(window.localStorage.getItem("photographerData"));
 
   const sortedMedia = customSort(media, filter);
   const sortedArticle = sortedMedia.map((media) => {
