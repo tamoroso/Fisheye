@@ -29,17 +29,30 @@
       </a>
     </header>
     <main id="main" aria-hidden="false">
-      <!-- TODO: handle accessibility for the select -->
       <section class="filter-section">
-        <label for="filter-select">Trier par</label>
-        <div class="custom-select">
-          <select name="filter" id="filter-select">
-            <option value="">Sélectionnez un filtre</option>
-            <option value="likes">Popularité</option>
-            <option value="date">Date</option>
-            <option value="title">Titre</option>
-          </select>
-        </div>
+        <label for="dropdown__selected">Trier par</label>
+        <ul class="dropdown">
+          <li
+            role="button"
+            aria-labelledby="dropdown-label"
+            id="dropdown__selected"
+            tabindex="0"
+          >
+            Sélectionner un filtre
+          </li>
+          <i class="fa-solid fa-angle-up dropdown__arrow"></i>
+          <li
+            aria-expanded="false"
+            role="list"
+            class="dropdown__list-container"
+          >
+            <ul class="dropdown__list">
+              <li class="dropdown__list-item" id="likes">Popularité</li>
+              <li class="dropdown__list-item" id="date">Date</li>
+              <li class="dropdown__list-item" id="title">Titre</li>
+            </ul>
+          </li>
+        </ul>
       </section>
       <section class="media-section"></section>
     </main>
@@ -101,7 +114,6 @@
         </header>
         <form method="post" novalidate id="contact-form" autocomplete="off">
           <div>
-            <!-- TODO: Add error gestion to the form -->
             <label id="firstName" for="firstName">Prénom</label>
             <input
               type="text"

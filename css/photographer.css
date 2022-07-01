@@ -78,75 +78,80 @@
   margin-right: 2rem;
 }
 
-.custom-select {
+.dropdown {
+  list-style: none;
   position: relative;
-  font-family: "DM Sans", sans-serif;
-  font-weight: 700;
-}
-
-.select-items div {
-  position: relative;
-}
-
-.select-items div:nth-child(2)::before,
-.select-items div:nth-child(3)::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 50%;
-  transform: translateX(50%);
-  width: 80%;
-  height: 1px;
-  background-color: white;
-}
-
-.select-items div,
-.select-selected,
-.select-items {
-  width: 200px;
-}
-
-.select-items div,
-.select-selected {
-  padding: 1.5rem 1rem;
-}
-
-.select-selected,
-.select-items {
-  border-radius: 6px;
-}
-
-.custom-select select {
-  display: none;
-}
-
-.select-selected {
-  background-color: var(--accent-color);
-  max-width: 200px;
-}
-
-.select-items div,
-.select-selected {
-  color: white;
   cursor: pointer;
-}
-
-.select-items {
-  position: absolute;
+  width: 220px;
+  height: 70px;
   background-color: var(--accent-color);
-  top: 0px;
-  left: 0;
+  color: white;
+  border-radius: 10px;
+  font-weight: 500;
+}
+
+.dropdown i {
+  color: white;
+  position: absolute;
+  padding: 0.8rem;
   right: 0;
-  z-index: 99;
+  top: 50%;
+  z-index: 101;
 }
 
-.select-hide {
-  display: none;
+.dropdown__arrow {
+  transform: translateY(-50%);
+  transition: transform 250ms ease-in-out;
 }
 
-.select-items div:hover,
-.same-as-selected {
-  background-color: rgba(225, 225, 225, 0.1);
+.expanded {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.dropdown__list {
+  width: 100%;
+  position: absolute;
+  z-index: 100;
+  left: 0;
+  top: 0px;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  background-color: var(--accent-color);
+  border-radius: 10px;
+}
+
+.dropdown__list-item {
+  margin: 0 20px;
+  padding: 10px 0;
+  height: 70px;
+  display: flex;
+  align-items: center;
+}
+
+.dropdown__list-item:nth-child(2) {
+  border-top: 2px white solid;
+  border-bottom: 2px white solid;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.open {
+  opacity: 1;
+  overflow: auto;
+  max-height: 15rem;
+}
+
+#dropdown__selected {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 10px;
 }
 
 .media-section {
@@ -222,6 +227,7 @@
   position: absolute;
   height: 100vh;
   width: 100vw;
+  z-index: 200;
 }
 
 .contact_modal {

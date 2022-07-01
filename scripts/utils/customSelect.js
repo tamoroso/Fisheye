@@ -1,53 +1,19 @@
-const updateSelectBox = (e) => {
-  let select =
-    e.currentTarget.parentNode.parentNode.getElementsByTagName("select")[0];
-  let selectLength = select.length;
-  let prevSibling = e.currentTarget.parentNode.previousSibling;
-  for (let i = 0; i < selectLength; i++) {
-    if (select.options[i].innerHTML === e.currentTarget.innerHTML) {
-      select.selectedIndex = i;
-      sortDataBy(select.options[select.selectedIndex].value);
-      prevSibling.innerHTML = e.currentTarget.innerHTML;
-      let sameAsSelected =
-        e.currentTarget.parentNode.getElementsByClassName("same-as-selected");
-      let sameAsSelectedLength = sameAsSelected.length;
-      for (i = 0; i < sameAsSelectedLength; i++) {
-        sameAsSelected[i].removeAttribute("class");
-      }
-
-      e.currentTarget.setAttribute("class", "same-as-selected");
-      break;
-    }
-  }
-  prevSibling.click();
-};
-
-const openCustomSelect = (e) => {
-  e.stopPropagation();
-  console.log(e.currentTarget);
-  e.currentTarget.nextSibling.classList.toggle("select-hide");
-  //Add Arrow here
-};
-
 const customSort = (data, sortBy) => {
   switch (sortBy) {
     case "likes":
       data.sort((a, b) => {
         return a.likes < b.likes ? 1 : a.likes > b.likes ? -1 : 0;
       });
-      // console.log(data);
       return data;
     case "date":
       data.sort((a, b) => {
         return a.date < b.date ? 1 : a.date > b.date ? -1 : 0;
       });
-      // console.log(data);
       return data;
     case "title":
       data.sort((a, b) => {
         return a.title.localeCompare(b.title);
       });
-      // console.log(data);
       return data;
     default:
       return data;
@@ -73,27 +39,108 @@ const sortDataBy = (filter) => {
   });
 };
 
-let originalSelect = document.querySelector(".custom-select");
+const SPACEBAR_KEY_CODE = "Space";
+const ENTER_KEY_CODE = "Enter";
+const DOWN_ARROW_KEY_CODE = "ArrowDown";
+const UP_ARROW_KEY_CODE = "ArrowUp";
+const ESCAPE_KEY_CODE = "Escape";
 
-let selectElement = originalSelect.getElementsByTagName("select")[0];
-let customSelect = document.createElement("div");
-customSelect.className = "select-selected ";
-customSelect.innerHTML = selectElement.options[0].innerHTML;
+const list = document.querySelector(".dropdown__list");
+const listContainer = document.querySelector(".dropdown__list-container");
+const dropdownArrow = document.querySelector(".dropdown__arrow");
+const listItems = document.querySelectorAll(".dropdown__list-item");
+const dropdownSelectedNode = document.querySelector("#dropdown__selected");
 
-originalSelect.appendChild(customSelect);
+const listItemsIds = [];
 
-let optionList = document.createElement("div");
-optionList.className = "select-items select-hide";
+dropdownSelectedNode.addEventListener("click", (e) => {
+  toggleListVisibility(e);
+});
+dropdownSelectedNode.addEventListener("keydown", (e) =>
+  toggleListVisibility(e)
+);
 
-[...selectElement].forEach((element, index) => {
-  if (index !== 0) {
-    let customOptions = document.createElement("div");
-    customOptions.innerHTML = selectElement.options[index].innerHTML;
-    customOptions.addEventListener("click", (e) => updateSelectBox(e));
-    optionList.appendChild(customOptions);
-  }
+listItems.forEach((item) => listItemsIds.push(item.id));
+listItems.forEach((item) => {
+  item.addEventListener("click", (e) => {
+    setselectedListItem(e);
+    sortDataBy(e.target.id);
+    closeList();
+  });
+  item.addEventListener("keydown", (e) => {
+    switch (e.code) {
+      case ENTER_KEY_CODE:
+        setselectedListItem(e);
+        sortDataBy(e.target.id);
+        closeList();
+        return;
+      case DOWN_ARROW_KEY_CODE:
+        focusNextListItem(DOWN_ARROW_KEY_CODE);
+        return;
+      case UP_ARROW_KEY_CODE:
+        e.preventDefault();
+        focusNextListItem(UP_ARROW_KEY_CODE);
+        return;
+      case ESCAPE_KEY_CODE:
+        closeList();
+        return;
+      default:
+        return;
+    }
+  });
 });
 
-originalSelect.appendChild(optionList);
-customSelect.ariaHidden = true;
-customSelect.addEventListener("click", (e) => openCustomSelect(e));
+const setselectedListItem = (e) => {
+  let selectedTextToAppend = document.createTextNode(e.target.innerText);
+  dropdownSelectedNode.innerHTML = null;
+  dropdownSelectedNode.appendChild(selectedTextToAppend);
+};
+
+const closeList = () => {
+  list.classList.remove("open");
+  dropdownArrow.classList.remove("expanded");
+  listContainer.setAttribute("aria-expanded", false);
+  listItems.forEach((el) => el.toggleAttribute("tabindex"));
+  dropdownSelectedNode.focus();
+};
+
+const toggleListVisibility = (e) => {
+  listItems.forEach((el) => el.setAttribute("tabindex", 0));
+  let openDropDown =
+    SPACEBAR_KEY_CODE.includes(e.code) || e.code === ENTER_KEY_CODE;
+  if (e.type === "click" || openDropDown) {
+    listItems[0].focus();
+    list.classList.toggle("open");
+    dropdownArrow.classList.toggle("expanded");
+    listContainer.setAttribute(
+      "aria-expanded",
+      list.classList.contains("open")
+    );
+  }
+  if (e.code === DOWN_ARROW_KEY_CODE) {
+    focusNextListItem(DOWN_ARROW_KEY_CODE);
+  }
+  if (e.code === UP_ARROW_KEY_CODE) {
+    focusNextListItem(UP_ARROW_KEY_CODE);
+  }
+};
+
+const focusNextListItem = (direction) => {
+  const activeElementId = document.activeElement.id;
+  if (activeElementId === "dropdown__selected") {
+    document.querySelector(`#${listItemsIds[1]}`).focus();
+  } else {
+    const currentActiveElementIndex = listItemsIds.indexOf(activeElementId);
+    if (direction === DOWN_ARROW_KEY_CODE) {
+      currentActiveElementIndex < listItemsIds.length - 1 &&
+        document
+          .querySelector(`#${listItemsIds[currentActiveElementIndex + 1]}`)
+          .focus();
+    } else if (direction === UP_ARROW_KEY_CODE) {
+      currentActiveElementIndex > 0 &&
+        document
+          .querySelector(`#${listItemsIds[currentActiveElementIndex - 1]}`)
+          .focus();
+    }
+  }
+};
