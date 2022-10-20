@@ -105,10 +105,10 @@ const closeList = () => {
 };
 
 const toggleListVisibility = (e) => {
-  listItems.forEach((el) => el.setAttribute("tabindex", 0));
   let openDropDown =
     SPACEBAR_KEY_CODE.includes(e.code) || e.code === ENTER_KEY_CODE;
   if (e.type === "click" || openDropDown) {
+    listItems.forEach((el) => el.setAttribute("tabindex", 0));
     listItems[0].focus();
     list.classList.toggle("open");
     dropdownArrow.classList.toggle("expanded");
@@ -118,9 +118,11 @@ const toggleListVisibility = (e) => {
     );
   }
   if (e.code === DOWN_ARROW_KEY_CODE) {
+    listItems.forEach((el) => el.setAttribute("tabindex", 0));
     focusNextListItem(DOWN_ARROW_KEY_CODE);
   }
   if (e.code === UP_ARROW_KEY_CODE) {
+    listItems.forEach((el) => el.setAttribute("tabindex", 0));
     focusNextListItem(UP_ARROW_KEY_CODE);
   }
 };

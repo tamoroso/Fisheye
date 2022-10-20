@@ -1,3 +1,5 @@
+//TODO: Add
+
 const mediaFactory = (data, photographerName) => {
   const { id, likes, video, image, title } = data;
   const getMediaCardDOM = () => {
@@ -34,7 +36,7 @@ const mediaFactory = (data, photographerName) => {
     } else {
       const imagePath = `assets/media/${photographerName}/${image}`;
       articleContent = `
-      <img src="${imagePath}" alt="${title}, closeup view" tabindex="0"/>
+      <img src="${imagePath}" alt="${title}, vue rapprochée" tabindex="0"/>
       <div>
         <p>${title}</p>
         <div>

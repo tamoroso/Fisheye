@@ -7,7 +7,7 @@ function photographerFactory(data) {
     article.id = id;
     const articleContent = `
       <a href=/photographer.html?id=${id} aria-label="${name}">
-        <img src = "${picture}" alt=""/>
+        <img src = "${picture}" alt="${name}"/>
         <h2>${name}</h2>
       </a>
       <p class="location">${city}, ${country}</p>
@@ -27,10 +27,10 @@ function photographerFactory(data) {
         <li>${city}, ${country}</li>
         <li>${tagline}</li>
       </ul>
-      <button class="contact_button" aria-label="Contact Me">
+      <button class="contact_button" aria-label="Contactez moi">
       Contactez-moi
       </button>
-      <img src="${picture}" alt=""/>
+      <img src="${picture}" alt="${name}"/>
     `;
 
     header.innerHTML = headerContent;
