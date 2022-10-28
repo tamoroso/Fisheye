@@ -7,10 +7,7 @@ async function getPhotographers() {
     mode: "cors",
     cache: "default",
   };
-  let request = new Request(
-    "http://localhost:5500/data/photographers.json",
-    init
-  );
+  let request = new Request("../../data/photographers.json", init);
 
   try {
     let res = await fetch(request, init);
@@ -69,7 +66,6 @@ async function init() {
   );
 
   displayData(filteredPhotographers, filteredMedia);
-  console.log(document.body.innerHTML);
 }
 
 init();

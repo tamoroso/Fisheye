@@ -7,7 +7,7 @@ async function getPhotographers() {
     cache: "default",
   };
   let request = new Request(
-    "http://localhost:5500/data/photographers.json",
+    "../../data/photographers.json",
     init
   );
 
@@ -35,7 +35,6 @@ async function init() {
 
   const { photographers } = await getPhotographers();
   displayData(photographers);
-  console.log(document.body.innerHTML);
 }
 
 init();
